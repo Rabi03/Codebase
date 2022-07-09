@@ -1,0 +1,211 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+
+
+.left{
+    background-image:url('https://cdn.searchenginejournal.com/wp-content/uploads/2020/01/an-introduction-to-python-for-seos-using-spreadsheets-5e17348a92e1e-1520x800.png') ;
+    object-fit: contain;
+  }
+
+  .landing{
+    margin: 0rem 0 0 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: .938rem;
+    font-weight: 500;
+  }
+
+  .landing ul{
+    padding: 0;
+    list-style: none;
+  }
+  .landing a{
+    text-decoration: none;
+  }
+
+  .bd-grid{
+    max-width: 1024px;
+    display: grid;
+    grid-template-columns: 100%;
+    column-gap: 2rem;
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .l-header{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+  
+  /*===== NAV =====*/
+  .nav{
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  @media screen and (max-width: 768px){
+    .nav__menu{
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100%;
+      padding: 3.5rem 1.5rem 0;
+      background: rgba(255,255,255,.3);
+      backdrop-filter: blur(10px);
+      transition: .5s;
+    }
+  }
+  
+  .nav__close{
+    position: absolute;
+    top: .75rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .nav__item{
+    margin-bottom: 2rem;
+  }
+  
+  .nav__close, .nav__link, .nav__logo, .nav__toggle{
+    color: #fff;
+  }
+  
+  .nav__link:hover{
+    color: blue;
+  }
+  
+  .nav__toggle{
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /*=== Show menu ===*/
+  .show{
+    right: 0;
+  }
+  
+  /*===== HOME =====*/
+  .home{
+    overflow: hidden;
+  }
+  
+  .home__container{
+    height: calc(100vh - 3rem);
+    grid-template-rows: repeat(2, max-content);
+    row-gap: 1.5rem;
+  }
+  
+  .home__img{
+    position: relative;
+    padding-top: 1.5rem;
+    justify-self: center;
+  }
+  
+  .home__img img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+  }
+  
+  .home__data{
+    color: white;
+  }
+  
+  .home__title{
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+  
+  
+  
+  .home__button{
+    display: inline-block;
+    background-color: cyan;
+    color: var(--white-color);
+    padding: 1.125rem 2rem;
+    border-radius: .5rem;
+  }
+  
+  .home__button:hover{
+    background-color: gray;
+  }
+  
+  /* ===== MEDIA QUERIES =====*/
+  @media screen and (min-width: 768px){
+    body{
+      margin: 0;
+    }
+    
+    .nav{
+      height: calc(3rem + 1.5rem);
+    }
+  
+    .nav__toggle, .nav__close{
+      display: none;
+    }
+  
+    .nav__list{
+      display: flex;
+    }
+  
+    .nav__item{
+      margin-left: 3rem;
+      margin-bottom: 0;
+    }
+  
+    .home__container{
+      height: 100vh;
+      grid-template-columns: repeat(2, max-content);
+      grid-template-rows:  1fr;
+      row-gap: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .home__img{
+      order: 1;
+      width: 375px;
+      height: 289px;
+    }
+  
+    .home__img img{
+      width: 375px;
+    }
+  }
+  
+  @media screen and (min-width: 1024px){
+    .bd-grid{
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    .home__container{
+      justify-content: initial;
+      column-gap: 4.5rem;
+    }
+  
+    .home__img{
+      width: 604px;
+      height: 466px;
+    }
+  
+    .home__img img{
+      width: 604px;
+    }
+  }
+
+  .search-all  .MuiOutlinedInput-notchedOutline{
+    border:0
+  }
