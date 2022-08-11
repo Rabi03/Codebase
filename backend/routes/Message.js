@@ -8,7 +8,7 @@ const { isAuthenticated, authorizedMember } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/:community_id/:channel_id").get(isAuthenticated,authorizedMember,allMessages);
+router.route("/:community_id/:channel_id").get(isAuthenticated,allMessages);
 router.route("/:channel_id/send").post(isAuthenticated,sendMessage);
 
 module.exports = router;

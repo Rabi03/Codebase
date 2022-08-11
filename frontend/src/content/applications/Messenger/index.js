@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef,useState } from 'react';
 
 import { Helmet } from 'react-helmet-async';
 
@@ -11,6 +11,8 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import {useDispatch,useSelector} from 'react-redux';
+import {loadchannelList} from '../../../store/channel';
 
 const RootWrapper = styled(Box)(
   () => `
@@ -48,6 +50,8 @@ const ChatTopBar = styled(Box)(
 const ChatMain = styled(Box)(
   () => `
         flex: 1;
+        overflow:scroll;
+        overflow-x:hidden;
 `
 );
 
@@ -58,13 +62,20 @@ const ChatBottomBar = styled(Box)(
 );
 
 function ApplicationsMessenger() {
+  const dispatch =useDispatch();
+  const {list,error,loading}=useSelector(state=>state.channel);
   const ref = useRef(null);
+  const [sendInfo,setSendINfo]=useState(false);
 
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollToBottom();
     }
   });
+
+  useEffect(() =>{
+    dispatch(loadchannelList())
+  },[])
 
   return (
     <>
@@ -74,7 +85,7 @@ function ApplicationsMessenger() {
       <RootWrapper>
         <Sidebar>
           <Scrollbars autoHide>
-            <SidebarContent />
+            <SidebarContent channels={list} />
           </Scrollbars>
         </Sidebar>
         <ChatWindow>
@@ -82,12 +93,10 @@ function ApplicationsMessenger() {
             <TopBarContent />
           </ChatTopBar>
           <ChatMain>
-            <Scrollbars ref={ref} autoHide>
-              <ChatContent />
-            </Scrollbars>
+              <ChatContent sendInfo={sendInfo} />
           </ChatMain>
           <ChatBottomBar>
-            <BottomBarContent />
+            <BottomBarContent handleSendInfo={v=>setSendINfo(v)} />
           </ChatBottomBar>
         </ChatWindow>
       </RootWrapper>

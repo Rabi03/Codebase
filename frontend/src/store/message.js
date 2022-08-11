@@ -25,6 +25,9 @@ const slice = createSlice({
         updateCurrentChatId:(message,action)=>{
             message.currentChat=action.payload;
         },
+        updateMessageList:(message, action)=>{
+            message.list.push(action.payload);
+        },
         addMessageRequest: (message, action) => {
             message.sending = 1
         },
@@ -41,14 +44,14 @@ const slice = createSlice({
     }
 });
 
-export const { messageRequest, messageSuccess, addMessageRequest, addMessageSuccess, addMessageFail,currentChatUserUpdate,clearMessageError,updateCurrentChatId } = slice.actions;
+export const { messageRequest, messageSuccess, addMessageRequest, addMessageSuccess, addMessageFail,currentChatUserUpdate,clearMessageError,updateCurrentChatId,updateMessageList } = slice.actions;
 
 export default slice.reducer;
 
 
-export const getMessages=(chatId,chat)=>(dispatch)=>{
+export const getMessages=(community_id,channel_id,chat)=>(dispatch)=>{
     dispatch(apiCallBegan({
-        url:`/api/message/${chatId}`,
+        url:`/api/message/${community_id}/${channel_id}`,
         onStart:messageRequest.type,
         onSuccess: messageSuccess.type,
         onError: addMessageFail.type
@@ -61,15 +64,19 @@ export const updateCurrentChatUser=(user)=>(dispatch)=>{
     dispatch({type:currentChatUserUpdate.type,payload:user})
 };
 
-export const addMessage=(content,chatId)=>(dispatch)=>{
+export const addMessage=(content,channel_id)=>(dispatch)=>{
     dispatch(apiCallBegan({
-        url:`/api/message`,
+        url:`/api/message/${channel_id}/send`,
         method:'post',
-        data:{content,chatId},
+        data:content,
         onStart:addMessageRequest.type,
         onSuccess: addMessageSuccess.type,
         onError: addMessageFail.type
     }))
+};
+
+export const messageListUpdate=(content)=>(dispatch)=>{
+    dispatch({type:updateMessageList.type,payload:content})
 };
 
 export const clearError=()=>(dispatch)=>{

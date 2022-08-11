@@ -32,7 +32,7 @@ function Courses({ role, courses }) {
         <Grid container spacing={2} sx={{justifyContent:'center'}}>
           {courses?.map((course) => (
             <Grid item xs={12} sm={role === 1 ? 4 : 8} >
-              <Card sx={{ height: '100%',display:'flex' }} onClick={()=>navigate(`/home/course/${course.course_id}`)}>
+              <Card sx={{ height: '100%',display:'flex',justifyContent: 'space-between'}} onClick={()=>navigate(`/home/course/${course.course_id}`)}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardHeader
                   title={course.name}

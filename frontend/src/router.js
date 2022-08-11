@@ -75,7 +75,7 @@ const routes = [
         element: <ProtectRoute Element={Promotions} />
       },
       {
-        path: 'messenger',
+        path: 'messenger/:community_id/:channel_id',
         element: <ProtectRoute Element={Messenger} />
       },
       {

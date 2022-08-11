@@ -32,6 +32,8 @@ import BlockTwoToneIcon from '@mui/icons-material/BlockTwoTone';
 import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 
+import { useSelector } from 'react-redux';
+
 const RootWrapper = styled(Box)(
   ({ theme }) => `
         @media (min-width: ${theme.breakpoints.values.md}px) {
@@ -84,7 +86,7 @@ const AccordionSummaryWrapper = styled(AccordionSummary)(
 );
 
 function TopBarContent() {
-
+  const {currentChannel}=useSelector(state=>state.channel);
   const theme = useTheme();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -107,11 +109,11 @@ function TopBarContent() {
             variant="rounded"
             sx={{ width: 50, height: 50 }}
             alt="Zain Baptista"
-            src="/static/images/avatars/2.jpg"
+            src={currentChannel?.group_image}
           />
           <Box sx={{ pl: { sm: 1.5 }, pt: { xs: 1.5, sm: 0 } }}>
             <Typography variant="h4" gutterBottom>
-              Zain Baptista
+              {currentChannel?.name}
             </Typography>
             <Typography variant="subtitle2">
               {formatDistance(subMinutes(new Date(), 8), new Date(), {

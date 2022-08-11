@@ -14,7 +14,7 @@ const menuItems = [
       {
         name: 'Messages',
         start_icon: EmailIcon,
-        link: '/home/messenger'
+        link: '/home/messenger/c/ch'
       },
       // {
       //   name: 'Course Content',

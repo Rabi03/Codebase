@@ -63,7 +63,7 @@ export const createcourse=(id,data)=>(dispatch)=>{
     }));
 };
 
-export const enrollCourse=(id)=>(dispatch)=>{
+export const enrollCourse=(id,data)=>(dispatch)=>{
     dispatch(apiCallBegan({
         url:`/api/community/course/${id}/enroll`,
         method:'post',

@@ -6,7 +6,9 @@ const slice = createSlice({
     initialState:{
         list:[],
         loading:false,
-        error:null
+        error:null,
+        currentChannel:null,
+        currentChannelMembers:[]
     },
     reducers:{
         channelListRequest:(channel,action)=>{
@@ -14,17 +16,20 @@ const slice = createSlice({
         },
         channelListSuccess:(channel,action)=>{
             channel.loading=false;
-            channel.list=action.payload.channels
+            channel.list=action.payload.channel
         },
+        currentChannelRequest:(channel,action)=>{
+            channel.loading=false;
+            channel.currentChannel=action.payload;
+        },
+        currentChannelMembersRequest:(channel,action)=>{
+            channel.loading=false;
+            channel.currentChannelMembers=action.payload.members;
+        },
+
         channelListUpdate:(channel,action)=>{
-            const findIndex=channel.list.findIndex(l=>l._id===action.payload._id);
-            if(findIndex>-1){
-                channel.list.splice(findIndex,1);
-                channel.list.unshift(action.payload);
-            }
-            else{
-                channel.list.unshift(action.payload);
-            }
+            const findIndex=channel.list.findIndex(l=>l.channel_id===action.payload.channel_id);
+            channel.list[findIndex].last_message=action.payload.message
         },
         channelListFail:(channel,action)=>{
             channel.loading=false;
@@ -36,7 +41,7 @@ const slice = createSlice({
     }
 });
 
-export const {channelListRequest,channelListSuccess,channelListUpdate,channelListFail,clearchannelListError}=slice.actions;
+export const {channelListRequest,channelListSuccess,channelListUpdate,channelListFail,clearchannelListError,currentChannelRequest,currentChannelMembersRequest}=slice.actions;
 
 export default slice.reducer;
 
@@ -49,8 +54,21 @@ export const loadchannelList =()=>(dispatch)=>{
     }))
 };
 
-export const updatechannelList=(channel)=>(dispatch)=>{
-    dispatch({type:channelListUpdate.type,payload:channel})
+export const loadchannelMembers =(community_id)=>(dispatch)=>{
+    dispatch(apiCallBegan({
+        url:`/api/channel/${community_id}`,
+        onStart:channelListRequest.type,
+        onSuccess: currentChannelMembersRequest.type,
+        onError: channelListFail.type
+    }))
+};
+
+export const updatechannelList=(channel_id,message)=>(dispatch)=>{
+    dispatch({type:channelListUpdate.type,payload:{channel_id,message}})
+};
+
+export const getCurrentChannel =(channel)=>(dispatch)=>{
+    dispatch({type:currentChannelRequest.type,payload:channel})
 };
 
 

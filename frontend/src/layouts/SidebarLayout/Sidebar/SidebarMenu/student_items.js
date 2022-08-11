@@ -21,7 +21,7 @@ const menuItems = [
         name: 'Messenger',
         start_icon: SendIcon,
         end_icon:"",
-        link: '/home/messenger'
+        link: '/home/messenger/c/ch'
       },
       // {
       //   name: 'Course Content',

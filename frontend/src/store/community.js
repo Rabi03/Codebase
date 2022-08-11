@@ -37,6 +37,7 @@ const slice=createSlice({
         },
         clearCommunityError:(community,action)=>{
             community.error=null;
+            community.message=null;
         },
         clearSearch:(community,action)=>{
             community.search_community=[];
@@ -55,6 +56,17 @@ export const createCommunity=(data)=>(dispatch)=>{
         data:data,
         onStart:communityRequest.type,
         onSuccess: createSuccess.type,
+        onError: communityFail.type
+    }));
+};
+
+export const joinCommunityAsStudent=(data)=>(dispatch)=>{
+    dispatch(apiCallBegan({
+        url:'/api/community/student/join',
+        method:'post',
+        data:data,
+        onStart:communityRequest.type,
+        onSuccess: joinSuccess.type,
         onError: communityFail.type
     }));
 };
