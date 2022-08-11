@@ -9,9 +9,15 @@ import {
   Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import {LoadingButton} from '@mui/lab'
 import Reactplayer from 'react-player'
 import GroupIcon from '@mui/icons-material/Group';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import {joinCommunityAsStudent,clearCommunityError} from '../../../store/community'
+import {enrollCourse,clearcourseError} from '../../../store/course'
+import {useDispatch,useSelector} from 'react-redux'
+import Swal from 'sweetalert'
+import { useEffect } from 'react';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -25,6 +31,27 @@ const AvatarPrimary = styled(Avatar)(
 
 function RecentActivity({videoLink,role,isAdmin}) {
   const theme = useTheme();
+  const dispatch =useDispatch();
+  const {current_course,error,message,loading}=useSelector(state=>state.course)
+  const community=useSelector(state=>state.community)
+
+  useEffect(()=>{
+    if(error||community.error){
+      Swal("Codebase",error||community.error,'error')
+      
+    }
+    if(message&&community.message){
+      Swal("Codebase","Join community successfully",'error')
+    }
+
+    clearCommunityError()
+    clearcourseError()
+  })
+
+  const joinCommunity=()=>{
+    dispatch(joinCommunityAsStudent({community_id:current_course.community_id}))
+    dispatch(enrollCourse(current_course.community_id,{community_id:current_course.community_id,course_id:current_course.course_id}))
+  }
 
   return (
     <Card sx={{position:'fixed'}}>
@@ -66,7 +93,7 @@ function RecentActivity({videoLink,role,isAdmin}) {
       : 
       !isAdmin&&
       <Box px={2} py={4} display="flex" alignItems="flex-start">
-        <Button fullWidth variant="contained">Join The Community</Button>
+        <LoadingButton fullWidth variant="contained" onClick={joinCommunity} loading={loading||community.loading}>Join The Community</LoadingButton>
       </Box>
       }
     </Card>

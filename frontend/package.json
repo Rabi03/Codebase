@@ -19,6 +19,7 @@
     "@mui/styles": "5.0.1",
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
+    "emoji-picker-react": "^3.5.1",
     "formik": "^2.2.9",
     "material-ui-chip-input": "^1.1.0",
     "nprogress": "^0.2.0",
@@ -33,6 +34,7 @@
     "react-router-dom": "6.0.0-beta.0",
     "react-scripts": "4.0.3",
     "remark-gfm": "^3.0.1",
+    "socket.io-client": "^4.5.1",
     "sweetalert": "^2.1.2",
     "web-vitals": "2.1.2",
     "yup": "^0.32.11"

@@ -1,26 +1,21 @@
 const db=require('../connectDatabase');
 
 exports.sendMessage=(req, res) => {
-    const channelId=req.params.channel_id;
+    const {channel_id}=req.body;
     const newMessage={
-        channel_id:channelId,
-        sender_id:req.user.user_id,
         ...req.body
     };
 
     const updateChannel={
         last_message:req.body.message,
-        sender_id:req.user.user_id,
     };
 
     const sql=
     `
-    START TRANSACTION
-    INSERT INTO message SET timestamp=CURRENT_TIMESTAMP(), ?;
+    INSERT INTO message SET \`timestamp\`=CURRENT_TIMESTAMP(), ?;
     UPDATE channel
-    SET timestamp=CURRENT_TIMESTAMP(), ?
-    WHERE channel_id='${channelId}';
-    COMMIT;
+    SET \`timestamp\`=CURRENT_TIMESTAMP(), ?
+    WHERE channel_id='${channel_id}';
     `;
 
     db.query(sql,[newMessage,updateChannel],(err, result)=>{
@@ -46,6 +41,7 @@ exports.allMessages=(req,res)=>{
             JOIN user u 
             ON (u.user_id=m.sender_id)
             WHERE m.channel_id='${channelId}'
+            ORDER BY timestamp ASC
         `
     
     db.query(sql,(err,result)=>{

@@ -54,12 +54,12 @@ exports.authorizedMember=(req, res, next)=>{
          WHERE EXISTS (
             SELECT user_id 
             FROM create_join_community_instructor i
-            WHERE i.user_id=${user_id} AND i.community_id=${communityId}
+            WHERE i.user_id='${user_id}' AND i.community_id='${communityId}'
          )
          OR EXISTS(
             SELECT user_id 
             FROM join_community_as_student s
-            WHERE s.user_id=${user_id} AND s.community_id=${communityId}
+            WHERE s.user_id='${user_id}' AND s.community_id='${communityId}'
          )
          `
     

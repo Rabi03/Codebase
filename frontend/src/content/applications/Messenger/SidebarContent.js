@@ -28,7 +28,11 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import Label from 'src/components/Label';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink ,useParams,useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {getCurrentChannel,loadchannelMembers} from '../../../store/channel';
+import { useContext } from 'react';
+import { RootContext } from 'src/contexts/RootContext';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -93,7 +97,11 @@ const TabsContainerWrapper = styled(Box)(
   `
 );
 
-function SidebarContent() {
+function SidebarContent({channels}) {
+  const dispatch =useDispatch();
+  const {community_id,channel_id}=useParams();
+  const navigate=useNavigate()
+  const {socket}=useContext(RootContext);
 
   const user =
   {
@@ -125,6 +133,13 @@ function SidebarContent() {
     setCurrentTab(value);
   };
 
+  const handleChannel=(channel)=>{
+    navigate(`/home/messenger/${channel.community_id}/${channel.channel_id}`);
+    dispatch(getCurrentChannel(channel));
+    dispatch(loadchannelMembers(channel.community_id))
+    socket.emit('join chat',channel.channel_id);
+  };
+
   return (
     <RootWrapper>
       <Typography sx={{ mb: 1, mt: 2 }} variant="h3">
@@ -133,9 +148,10 @@ function SidebarContent() {
 
       <Box mt={2}>
           <List disablePadding component="div">
-            <ListItemWrapper selected>
+            {channels.map(channel =>
+            <ListItemWrapper selected={channel.community_id===community_id} onClick={()=>handleChannel(channel)}>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/1.jpg" />
+                <Avatar src={channel.group_image} />
               </ListItemAvatar>
               <ListItemText
                 sx={{ mr: 1 }}
@@ -148,73 +164,14 @@ function SidebarContent() {
                   color: 'textSecondary',
                   noWrap: true
                 }}
-                primary="Zain Baptista"
-                secondary="Hey there, how are you today? Is it ok if I call you?"
+                primary={channel.name}
+                secondary={channel.last_message}
               />
               <Label color="primary">
                 <b>2</b>
               </Label>
             </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/2.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{ mr: 1 }}
-                primaryTypographyProps={{
-                  color: 'textPrimary',
-                  variant: 'h5',
-                  noWrap: true
-                }}
-                secondaryTypographyProps={{
-                  color: 'textSecondary',
-                  noWrap: true
-                }}
-                primary="Kierra Herwitz"
-                secondary="Hi! Did you manage to send me those documents"
-              />
-            </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{ mr: 1 }}
-                primaryTypographyProps={{
-                  color: 'textPrimary',
-                  variant: 'h5',
-                  noWrap: true
-                }}
-                secondaryTypographyProps={{
-                  color: 'textSecondary',
-                  noWrap: true
-                }}
-                primary="Craig Vaccaro"
-                secondary="Ola, I still haven't received the program schedule"
-              />
-            </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/4.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{ mr: 1 }}
-                primaryTypographyProps={{
-                  color: 'textPrimary',
-                  variant: 'h5',
-                  noWrap: true
-                }}
-                secondaryTypographyProps={{
-                  color: 'textSecondary',
-                  noWrap: true
-                }}
-                primary="Adison Press"
-                secondary="I recently did some buying on Amazon and now I'm stuck"
-              />
-              <Label color="primary">
-                <b>8</b>
-              </Label>
-            </ListItemWrapper>
+            )}
           </List>
       </Box>
       <Box display="flex" pb={1} mt={4} alignItems="center">

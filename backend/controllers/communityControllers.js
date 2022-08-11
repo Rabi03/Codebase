@@ -89,6 +89,28 @@ exports.join_as_student = (req, res) => {
     });
 };
 
+exports.join_or_enroll= (req, res) => {
+    const {course_id,community_id}=req.body;
+    const user_id= req.user.user_id;
+    const sql=`
+    SELECT EXISTS(SELECT * FROM join_community_as_student WHERE community_id =? AND user_id=?) AS joinCheck;
+    SELECT EXISTS(SELECT * FROM enroll WHERE course_id =? AND user_id=?) AS enrollCheck;
+    `
+    db.query(sql, [community_id,user_id,course_id,user_id], (err, result) => {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                error: err
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            result
+        })
+    });
+
+}
+
 exports.topCommunity = (req, res) => {
     const { skip } = req.query;
     const sql = `SELECT * FROM community LIMIT 3 OFFSET ${skip}`;
